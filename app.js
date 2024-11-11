@@ -63,7 +63,6 @@ app.get('/', chatApp);
 app.get('/chat', respondChat);
 app.get('/sse', respondSSE);
 
-
 app.listen(port,function () {
     console.log(`Server is listening on port ${port}`);
   });
