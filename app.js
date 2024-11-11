@@ -1,13 +1,32 @@
-const http = require('http');
-const url = require('url');
+const path = require('path');
+const EventEmitter = require('events');
 
 const port = process.env.PORT || 3000;
+const chatEmitter = new EventEmitter();
 
-// note that typically the variables here are `req` and `res` but we are using `request` and `response` for clarity
-const server = http.createServer(function(request, response) {
-  response.end("hi");
-});
+function respondText(req, res) {
+    res.end('hi');
+  }
 
-server.listen(port, function() {
-  console.log(`Server is listening on port ${port}`);
-});
+  function respondJson(req, res) {
+    res.json({
+      text: 'hi',
+      numbers: [1, 2, 3],
+    });
+  }
+
+function respondNotFound(req, res) {
+    res.writeHead(404, { 'Content-Type': 'text/plain'});
+    res.end('Not Found');
+  }
+
+  function respondEcho (req, res) {
+   
+    const { input = '' } = req.query;
+    res.json({
+      normal: input,
+      shouty: input.toUpperCase(),
+      charCount: input.length,
+      backwards: input.split('').reverse().join(''),
+    });
+  }
